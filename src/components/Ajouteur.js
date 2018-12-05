@@ -30,6 +30,11 @@ function randomTodo() {
     return `${rndActions} ${rndObjects}`;
 }
 
+function handleAjout(textField, onHandleAjout){
+    onHandleAjout(textField.value);
+    textField.value = '';
+}
+
 const Ajouteur = ({onHandleAjout}) => {
     let textField = null;
 
@@ -37,7 +42,7 @@ const Ajouteur = ({onHandleAjout}) => {
     return (
         <div id="ajouteur_container">
             <input id="ajouteur_texte" type="text" placeholder="entrer votre todo" ref={node => textField = node}/>
-            <button id="ajouteur_btn" onClick={() => onHandleAjout(textField.value)}>Ajouter</button>
+            <button id="ajouteur_btn" onClick={() => handleAjout(textField, onHandleAjout)}>Ajouter</button>
             <button id="ajouteur_rnd_btn" onClick={() => onHandleAjout(randomTodo())}>Au hasard!</button>
         </div>
     );

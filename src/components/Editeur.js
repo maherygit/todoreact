@@ -12,7 +12,8 @@ class Editeur extends React.Component {
     loadImage(){
         fetch("http://aws.random.cat/meow")
             .then(data => data.json())
-            .then(catFile => { this.setState({ catImage: catFile.file }) });
+            .then(catFile => { this.setState({ catImage: catFile.file }) })
+            .catch(err => console.log(err.message));
     }
 
     getUpdatedTodo(){
@@ -24,7 +25,7 @@ class Editeur extends React.Component {
         };
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.loadImage();
     }
 

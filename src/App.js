@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import TodoList from './TodoList';
-import Ajouteur from './Ajouteur';
-import Filtreur from './Filtreur';
-import Editeur from './Editeur';
+import TodoListContainer from './containers/TodoListContainer';
+import AjouteurContainer from './containers/AjouteurContainer';
+import FiltreurContainer from './containers/FiltreurContainer';
+import EditeurContainer from './containers/EditeurContainer';
+
+import { connect } from 'react-redux';
 
 class App extends Component {
 
@@ -33,31 +34,28 @@ class App extends Component {
   }
 
   render() {
-    let curDate = new Date();
-    let todos = [
-      {id: 1, text: "Je suis Todo 1", completed: false, doneAt: ""},
-      {id: 2, text: "Je suis Todo 2", completed: true, doneAt: "19/11/2018 15:02"},
-      {id: 3, text: "Je suis Todo 3", completed: true, doneAt: "19/11/2018 14:11"},
-      {id: 4, text: "Je suis Todo 4", completed: false, doneAt: "19/11/2018 00:02"},
-      {id: 5, text: "Je suis Todo 5", completed: false, doneAt: ""},
-    ];
-    let filterVal = false;
+    let noEditMode = (this.props.editMode === -1);
 
     return (
       <div className="App">
-        <header>
-          <Ajouteur onHandleAjout={this.handleAjout} /><Filtreur filterOn={filterVal} onHandleFilterToggle={this.handleFilterToggle}/>
-        </header>
-        <TodoList todos = {todos}
-                  filterOn = {filterVal}
-                  onHandleToggle = {this.handleToggling}
-                  onHandleEdit = {this.handleEdit}
-                  onHandleDelete = {this.handleDelete} 
-        />
-        {filterVal && (<Editeur todo= {todos[0]} onModify={this.handleModify}/>)}
+        { (noEditMode) ? 
+          (<div>
+              <header>
+                <AjouteurContainer /><FiltreurContainer />
+              </header>
+              <TodoListContainer />
+          </div>)
+          :(<EditeurContainer />)
+          }
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    editMode: state.editMode
+  }
+}
+
+export default connect(mapStateToProps, null)(App);
