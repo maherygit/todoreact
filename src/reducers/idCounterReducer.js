@@ -1,6 +1,6 @@
 import  { CREATE, SET_ID_COUNTER } from '../actions/actions';
 
-export default function(state = 0, action){
+export default function idCounterReducer (state = 0, action){
     switch(action.type){
         // lors de la création d'un TODO
         case CREATE:

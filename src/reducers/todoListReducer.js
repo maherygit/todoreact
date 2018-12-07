@@ -2,12 +2,12 @@ import { CREATE, UPDATE, DELETE, TOGGLE } from '../actions/actions';
 
 let idCpt = 0;
 
-export default function todoReducer( state = [], action){
+export default function todoListReducer( state = [], action){
     let newState;
     let idx = -1;
     switch(action.type){
         case CREATE:
-            return [...state, {id:idCpt ++, text:action.payload, completed:false, doneAt:''} ];
+            return [...state, action.payload ];
 
         case UPDATE:
             idx = state.findIndex(elt => elt.id === action.payload.id);
@@ -34,6 +34,12 @@ export default function todoReducer( state = [], action){
             if(idx !== -1){
                 newState = [...state];
                 newState[idx].completed = !state[idx].completed;
+                if(newState[idx].completed){
+                    newState[idx].doneAt = (new Date()).toLocaleDateString();
+                } else {
+                    newState[idx].doneAt = "";
+                }
+
             } else {
                 return state;            
             }

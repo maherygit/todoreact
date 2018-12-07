@@ -41,7 +41,7 @@ class App extends Component {
         { (noEditMode) ? 
           (<div>
               <header>
-                <AjouteurContainer /><FiltreurContainer />
+                <AjouteurContainer idCounter={this.props.idCounter}/><FiltreurContainer />
               </header>
               <TodoListContainer />
           </div>)
@@ -54,7 +54,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    editMode: state.editMode
+    editMode: state.editMode,
+    idCounter: state.idCounter
   }
 }
 

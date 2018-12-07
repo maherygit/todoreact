@@ -24,26 +24,31 @@ function rndItem(tabTitem){
     return tabTitem[Math.round(Math.random()*tabTitem.length)%tabTitem.length];
 }
 
-function randomTodo() {
+function randomTodo(idTodo) {
     let rndActions = rndItem(ACTIONS) ;
     let rndObjects = rndItem(OBJECTS) ;
-    return `${rndActions} ${rndObjects}`;
+    let newTodo = {id:idTodo, text:`${rndActions} ${rndObjects}`, completed: false, doneAt:"" };
+    return newTodo;
 }
 
-function handleAjout(textField, onHandleAjout){
-    onHandleAjout(textField.value);
+function handleAjout(idCounter, textField, dispatcher){
+    dispatcher({
+        id: idCounter,
+        text: textField.value,
+        completed: false,
+        doneAt: ""
+    });
     textField.value = '';
 }
 
-const Ajouteur = ({onHandleAjout}) => {
+const Ajouteur = ({idCounter, onHandleAjout}) => {
     let textField = null;
-
 
     return (
         <div id="ajouteur_container">
             <input id="ajouteur_texte" type="text" placeholder="entrer votre todo" ref={node => textField = node}/>
-            <button id="ajouteur_btn" onClick={() => handleAjout(textField, onHandleAjout)}>Ajouter</button>
-            <button id="ajouteur_rnd_btn" onClick={() => onHandleAjout(randomTodo())}>Au hasard!</button>
+            <button id="ajouteur_btn" onClick={() => handleAjout(idCounter, textField, onHandleAjout)}>Ajouter</button>
+            <button id="ajouteur_rnd_btn" onClick={() => onHandleAjout(randomTodo(idCounter))}>Au hasard!</button>
         </div>
     );
 };
